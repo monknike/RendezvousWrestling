@@ -59,7 +59,7 @@ namespace RendezvousWrestling.FightSystem.Actions.Enabled
         {
             this.FpDamageToAtk += GetIntValueForEnumByTier(typeof(FocusDamageOnHit), ActionTier);
             this.FpHealToDef += GetIntValueForEnumByTier(typeof(FocusHealOnHit), ActionTier);
-            this.HpDamageToDef = (int)Math.Floor(this.AttackFormula(this.ActionTier, (int)Math.Floor(this.Attacker.CurrentPower * 1m), this.Attacker.CurrentToughness, 0) * GetDecValueForEnumByTier(typeof(HighRiskMultipliers), ActionTier) * GetDecValueForEnumByTier(typeof(FailedHighRiskMultipliers), ActionTier) * 1m);
+            this.HpDamageToAtk = (int)Math.Floor(this.AttackFormula(this.ActionTier, (int)Math.Floor(this.Attacker.CurrentPower * 1m), this.Attacker.CurrentToughness, 0) * GetDecValueForEnumByTier(typeof(HighRiskMultipliers), ActionTier) * GetDecValueForEnumByTier(typeof(FailedHighRiskMultipliers), ActionTier) * 1m);
             this.ApplyDamage();
         }
     }

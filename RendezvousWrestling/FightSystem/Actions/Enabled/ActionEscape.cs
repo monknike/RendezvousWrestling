@@ -47,7 +47,7 @@ namespace RendezvousWrestling.FightSystem.Actions.Enabled
         {
             get
             {
-                ActionTier = Defender.TierOfHighestReceivedHold;
+                ActionTier = Attacker.TierOfHighestReceivedHold;
                 return base.SpecificRequiredDiceScore;
             }
         }
