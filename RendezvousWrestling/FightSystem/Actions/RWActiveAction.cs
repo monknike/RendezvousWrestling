@@ -12,7 +12,6 @@ using RendezvousWrestling.Common.Constants;
 using RendezvousWrestling.FightSystem.Constants;
 using RendezvousWrestling.Configuration;
 using System.Reflection;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace RendezvousWrestling.FightSystem.Actions
 {
@@ -343,23 +342,29 @@ namespace RendezvousWrestling.FightSystem.Actions
                 {
                     scoreRequired += AddRequiredScoreWithExplanation(-(int)(Action.Globals.difficultyIncreasePerBondageItem * Defender.NumBondageItemsOnSelf), "BDG");
                     
-                    if (Defender.Focus >= 0 && ((Defender.Focus - Attacker.Focus) / 25f) < ((Defender.CurrentDexterity - Attacker.CurrentDexterity) / 25f))
+                    if (Defender.Focus >= 0)
                     {
-                        scoreRequired += AddRequiredScoreWithExplanation((int)Math.Floor((Defender.Focus - Attacker.Focus) / 25f), "FPDIFF");
+                        if (((Defender.Focus - Attacker.Focus) / 25f) >= ((Defender.CurrentDexterity - Attacker.CurrentDexterity) / 25f))
+                        {
+                            scoreRequired += AddRequiredScoreWithExplanation((int)Math.Floor((Defender.CurrentDexterity - Attacker.CurrentDexterity) / 25f), "DEXDIFF");
+                        }
+                        
+                        else
+                        {
+                            scoreRequired += AddRequiredScoreWithExplanation((int)Math.Floor((Defender.Focus - Attacker.Focus) / 25f), "FPDIFF");
+                        }
                     }
-                    if (Defender.Focus >= 0 && ((Defender.Focus - Attacker.Focus) / 25f) >= ((Defender.CurrentDexterity - Attacker.CurrentDexterity) / 25f))
+                    
+                    if (Defender.Focus < 0)
                     {
-                        scoreRequired += AddRequiredScoreWithExplanation((int)Math.Floor((Defender.CurrentDexterity - Attacker.CurrentDexterity) / 25f), "DEXDIFF");
-                    }
-
-
-                    if (Defender.Focus < 0 && ((Defender.Focus / 10f) - 1) < ((Defender.CurrentDexterity - Attacker.CurrentDexterity) / 25f))
-                    {
-                        scoreRequired += AddRequiredScoreWithExplanation((int)Math.Floor(Defender.Focus / 10f) - 1, "FPZERO");
-                    }
-                    if (Defender.Focus < 0 && ((Defender.Focus / 10f) - 1) >= ((Defender.CurrentDexterity - Attacker.CurrentDexterity) / 25f))
-                    {
-                        scoreRequired += AddRequiredScoreWithExplanation((int)Math.Floor((Defender.CurrentDexterity - Attacker.CurrentDexterity) / 25f), "DEXDIFF");
+                        if (((Defender.Focus / 10f) - 1) >= ((Defender.CurrentDexterity - Attacker.CurrentDexterity) / 25f))
+                        {
+                            scoreRequired += AddRequiredScoreWithExplanation((int)Math.Floor((Defender.CurrentDexterity - Attacker.CurrentDexterity) / 25f), "DEXDIFF");
+                        }
+                        else
+                        {
+                            scoreRequired += AddRequiredScoreWithExplanation((int)Math.Floor(Defender.Focus / 10f) - 1, "FPZERO");   
+                        }
                     }
 
                     if (Defender.StunnedTier >= (int)RendezvousWrestling.Configuration.Tier.Light)
