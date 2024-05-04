@@ -52,7 +52,7 @@ namespace RendezvousWrestling.FightSystem.Actions.Enabled
 
         public override int AddBonusesToRollFromStats()
         {
-            return (int)Math.Ceiling(this.Attacker.CurrentDexterity / 10m);
+            return (int)Math.Ceiling(this.Attacker.CurrentDexterity / 20m);
         }
 
         public override void OnMiss()
