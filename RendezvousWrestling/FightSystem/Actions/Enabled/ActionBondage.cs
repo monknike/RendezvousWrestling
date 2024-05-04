@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using RendezvousWrestling.Common.Actions;
 using RendezvousWrestling.Common.Constants;
 using RendezvousWrestling.Configuration;
 using RendezvousWrestling.FightSystem.Configuration;
@@ -5,6 +7,7 @@ using RendezvousWrestling.FightSystem.Features;
 using RendezvousWrestling.FightSystem.Modifiers;
 using System;
 using System.Collections.Generic;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace RendezvousWrestling.FightSystem.Actions.Enabled
 {
@@ -43,25 +46,18 @@ namespace RendezvousWrestling.FightSystem.Actions.Enabled
 
         }
 
+        public override int RequiredDiceScore // I know that this is super bad code, but basically, I wanted the required dice roll before DEXDIFF/FPDIFF to be 10, and it wasn't doing it, so I did this code :'D
+        {
+            
+            get
+            { 
+                AddRequiredScoreWithExplanation(5, "BDG ATTEMPT");
+                return base.RequiredDiceScore+5;
+            }
+        }
         public override int AddBonusesToRollFromStats()
         {
-            return base.AddBonusesToRollFromStats() + (int)Math.Ceiling(this.Attacker.CurrentSensuality / 10m);
-        }
-
-        public override int RequiredDiceScore
-        {
-            get
-            {
-                if (this.Defender.IsInHold())
-                {
-                    this.RequiresRoll = false;
-                }
-                if (this.Defender.User.HasFeature(RWFeatureType.BondageBunny))
-                {
-                    return RWGameSettings.RequiredScoreForBondageAgainstBondageBunny;
-                }
-                return base.RequiredDiceScore;
-            }
+            return base.AddBonusesToRollFromStats() + (int)Math.Ceiling(this.Attacker.CurrentSensuality / 20m);
         }
 
         public override void OnHit()
